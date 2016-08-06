@@ -1,8 +1,11 @@
 from flask import render_template
-from . import app
+from . import app, db
+from models import Job
 
 @app.route('/')
 @app.route('/index')
 def index():
+    active_jobs = Job.query.filter_by(active=True).all()
     return render_template('index.html',
-                    title='Tradestock - Home')
+                    title='Tradestock - Home',
+                    jobs=active_jobs)
