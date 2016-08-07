@@ -7,3 +7,13 @@ class Job(db.Model):
 
     def __repr__(self):
         return '<Job %r>' % (self.name)
+
+class Stockitem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sku = db.Column(db.String(255))
+    name = db.Column(db.String(255), nullable=False)
+    unitprice = db.Column(db.Float)
+    quantity = db.Column(db.Float)
+
+    def __repr__(self):
+        return '<Stockitem %r>' % (self.name)
