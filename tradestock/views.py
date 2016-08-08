@@ -6,8 +6,8 @@ from models import Job, Stockitem
 @app.route('/index')
 def index():
     active_jobs = Job.query.filter_by(active=True).all()
-    unallocated_stock = Stockitem.query.all()
+    unallocated_stock = Stockitem.query.filter(Stockitem.job==None).all()
     return render_template('index.html',
                     title='Tradestock - Home',
                     jobs=active_jobs,
-                    stock=unallocated_stock)
+                    unallocated_stock=unallocated_stock)

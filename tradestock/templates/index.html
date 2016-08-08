@@ -14,7 +14,7 @@
   <div id="unallocated_stock">
     <h2>Unallocated stock</h2>
     <ul>
-      {% for stock in stock %}
+      {% for stock in unallocated_stock %}
         <li>{{stock.name}} ({{numeraljs(stock.quantity).decimal_if_required()}} @ {{numeraljs(stock.unitprice).currency()}})</li>
       {% endfor %}
     </ul>
