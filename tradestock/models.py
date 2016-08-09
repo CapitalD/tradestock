@@ -15,6 +15,7 @@ class Stockitem(db.Model):
     name = db.Column(db.String(255), nullable=False)
     unitprice = db.Column(db.Float)
     quantity = db.Column(db.Float)
+    totalprice = db.Column(db.Float)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id'))
 
     def __repr__(self):

@@ -4,11 +4,40 @@
 
   <div id="active_jobs">
     <h2>Active jobs</h2>
-    <ul>
-    {% for job in jobs %}
-      <li>{{job.name}}</li>
-    {% endfor %}
-    </ul>
+    <table>
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          Stock items
+        </th>
+        <th>
+          Value
+        </th>
+      </tr>
+      {% for job in jobs %}
+        <tr>
+          <td>
+            {{job.Job.name}}
+          </td>
+          <td>
+            {% if not job.stockcount %}
+              0
+            {% else %}
+              {{job.stockcount}}
+            {% endif %}
+          </td>
+          <td>
+            {% if not job.stocksum %}
+              {{numeraljs(0).currency()}}
+            {% else %}
+              {{numeraljs(job.stocksum).currency()}}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
     </div>
 
   <div id="unallocated_stock">
