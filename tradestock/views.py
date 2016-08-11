@@ -1,7 +1,8 @@
-from flask import render_template
+from flask import render_template, flash, redirect, url_for
 from sqlalchemy import func
 from . import app, db
 from models import Job, Stockitem
+from forms import NewJobForm
 
 @app.route('/')
 @app.route('/index')
@@ -14,3 +15,17 @@ def index():
                     title='Tradestock - Home',
                     jobs=active_jobs,
                     unallocated_stock=unallocated_stock)
+
+@app.route('/job/new', methods=['GET','POST'])
+def new_job():
+    form = NewJobForm()
+    if form.validate_on_submit():
+        job = Job(name=form.name.data, active=form.active.data)
+        db.session.add(job)
+        db.session.commit()
+        flash('New job created: %s' %
+            (form.name.data))
+        return redirect(url_for('index'))
+    return render_template('new_job.html',
+                            title='Add job',
+                            form=form)

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <h1>Add job</h1>
+  <form action="" method="post" name="new_job">
+    {{ form.hidden_tag() }}
+    <p>
+      <label for="name">
+        Job name
+          {{ form.name(size=80) }}
+          {% for error in form.name.errors %}
+            <span style="color: #f33;">[{{ error }}]</span>
+          {% endfor %}
+      </label>
+    </p>
+    <p>
+      {% for subfield in form.active %}
+        {{ subfield }} {{ subfield.label }}<br>
+      {% endfor %}
+    </p>
+    <p>
+      <a href="{{ url_for('index') }}">Cancel</a> | 
+      <input type="submit" name="submit" value="Save">
+    </p>
+  </form>
+{% endblock %}
