@@ -12,7 +12,7 @@ def index():
     #active_jobs = Job.query.filter_by(active=True).all()
     unallocated_stock = Stockitem.query.filter(Stockitem.job==None).all()
     return render_template('index.html',
-                    title='Tradestock - Home',
+                    title='Home',
                     jobs=active_jobs,
                     unallocated_stock=unallocated_stock)
 
