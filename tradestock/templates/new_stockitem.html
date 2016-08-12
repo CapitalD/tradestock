@@ -35,7 +35,7 @@
       <label for="quantity">
         Quantity
           {{ form.quantity(type='number', step='0.01') }}
-          {% for error in form.name.errors %}
+          {% for error in form.quantity.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
       </label>

@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for
 from sqlalchemy import func
 from . import app, db
 from models import Job, Stockitem
-from forms import NewJobForm, NewStockForm
+from forms import NewJobForm, NewStockForm, AllocateStockForm
 
 @app.route('/')
 @app.route('/index')
@@ -51,3 +51,25 @@ def new_stockitem():
     return render_template('new_stockitem.html',
                             title='Add stockitem',
                             form=form)
+
+@app.route('/stockitem/<id>/allocate', methods=['GET','POST'])
+def allocate_stock(id):
+    stockitem = Stockitem.query.get_or_404(id)
+    form = AllocateStockForm(obj=stockitem)
+    jobs = [(j.id, j.name) for j in Job.query.filter_by(active=True).all()]
+    form.job.choices = jobs
+    form.job.choices.insert(0,(0,'Unallocated'))
+    if form.validate_on_submit():
+        if form.job.data == 0:
+            stockitem.quantity=form.quantity.data
+        else:
+            stockitem.quantity=form.quantity.data
+            stockitem.job_id=form.job.data
+        db.session.commit()
+        flash('Stockitem allocated to job: %s' %
+            (stockitem.job.name))
+        return redirect(url_for('index'))
+    return render_template('allocate_stock.html',
+                            title='Allocate stock to job',
+                            form=form,
+                            stockitem=stockitem)

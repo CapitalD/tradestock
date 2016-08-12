@@ -12,3 +12,7 @@ class NewStockForm(Form):
     unitprice = DecimalField('unitprice', places=2)
     quantity = DecimalField('quantity')
     job = SelectField('job', coerce=int)
+
+class AllocateStockForm(Form):
+    quantity = DecimalField('quantity')
+    job = SelectField('job', coerce=int)

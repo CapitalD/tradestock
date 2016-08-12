@@ -49,7 +49,7 @@
     {% endif %}
     <ul>
       {% for stock in unallocated_stock %}
-        <li>{{stock.name}} ({{numeraljs(stock.quantity).decimal_if_required()}} @ {{numeraljs(stock.unitprice).currency()}})</li>
+        <li>{{stock.name}} ({{numeraljs(stock.quantity).decimal_if_required()}} @ {{numeraljs(stock.unitprice).currency()}}) <a href="{{url_for('allocate_stock', id=stock.id)}}">[allocate]</a></li>
       {% endfor %}
     </ul>
   </div>
