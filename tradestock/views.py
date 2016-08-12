@@ -35,9 +35,10 @@ def new_stockitem():
     form = NewStockForm()
     jobs = [(j.id, j.name) for j in Job.query.filter_by(active=True).all()]
     form.job.choices = jobs
-    form.job.choices.insert(0,(0,'Select one'))
+    form.job.choices.insert(0,(0,'Unallocated'))
     if form.validate_on_submit():
         totalprice = float(form.unitprice.data) * float(form.quantity.data)
+        # TODO: Find a better alternative to using the value of 0 for the blank value, then handling two cases
         if form.job.data == 0:
             stockitem = Stockitem(sku=form.sku.data, name=form.name.data, unitprice=form.unitprice.data, quantity=form.quantity.data, totalprice=totalprice)
         else:
