@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, RadioField, DecimalField
+from wtforms import StringField, RadioField, DecimalField, SelectField
 from wtforms.validators import DataRequired
 
 class NewJobForm(Form):
@@ -11,3 +11,4 @@ class NewStockForm(Form):
     name = StringField('name', validators=[DataRequired()])
     unitprice = DecimalField('unitprice', places=2)
     quantity = DecimalField('quantity')
+    job = SelectField('job', coerce=int)

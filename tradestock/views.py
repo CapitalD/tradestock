@@ -33,9 +33,15 @@ def new_job():
 @app.route('/stockitem/new', methods=['GET','POST'])
 def new_stockitem():
     form = NewStockForm()
+    jobs = [(j.id, j.name) for j in Job.query.filter_by(active=True).all()]
+    form.job.choices = jobs
+    form.job.choices.insert(0,(0,'Select one'))
     if form.validate_on_submit():
         totalprice = float(form.unitprice.data) * float(form.quantity.data)
-        stockitem = Stockitem(sku=form.sku.data, name=form.name.data, unitprice=form.unitprice.data, quantity=form.quantity.data, totalprice=totalprice)
+        if form.job.data == 0:
+            stockitem = Stockitem(sku=form.sku.data, name=form.name.data, unitprice=form.unitprice.data, quantity=form.quantity.data, totalprice=totalprice)
+        else:
+            stockitem = Stockitem(sku=form.sku.data, name=form.name.data, unitprice=form.unitprice.data, quantity=form.quantity.data, totalprice=totalprice, job_id=form.job.data)
         db.session.add(stockitem)
         db.session.commit()
         flash('New stockitem created: %s' %
