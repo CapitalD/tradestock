@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for
 from sqlalchemy import func
 from . import app, db
 from models import Job, Stockitem
-from forms import NewJobForm
+from forms import NewJobForm, NewStockForm
 
 @app.route('/')
 @app.route('/index')
@@ -28,4 +28,19 @@ def new_job():
         return redirect(url_for('index'))
     return render_template('new_job.html',
                             title='Add job',
+                            form=form)
+
+@app.route('/stockitem/new', methods=['GET','POST'])
+def new_stockitem():
+    form = NewStockForm()
+    if form.validate_on_submit():
+        totalprice = float(form.unitprice.data) * float(form.quantity.data)
+        stockitem = Stockitem(sku=form.sku.data, name=form.name.data, unitprice=form.unitprice.data, quantity=form.quantity.data, totalprice=totalprice)
+        db.session.add(stockitem)
+        db.session.commit()
+        flash('New stockitem created: %s' %
+            (form.name.data))
+        return redirect(url_for('index'))
+    return render_template('new_stockitem.html',
+                            title='Add stockitem',
                             form=form)

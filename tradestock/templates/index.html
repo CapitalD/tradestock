@@ -41,7 +41,7 @@
     </div>
 
   <div id="unallocated_stock">
-    <h2>Unallocated stock</h2>
+    <h2>Unallocated stock</h2> <a href="{{url_for('new_stockitem')}}">Add stockitem</a>
     <ul>
       {% for stock in unallocated_stock %}
         <li>{{stock.name}} ({{numeraljs(stock.quantity).decimal_if_required()}} @ {{numeraljs(stock.unitprice).currency()}})</li>
