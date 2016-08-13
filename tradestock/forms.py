@@ -14,5 +14,4 @@ class NewStockForm(Form):
     job = SelectField('job', coerce=int)
 
 class AllocateStockForm(Form):
-    quantity = DecimalField('quantity')
-    job = SelectField('job', coerce=int)
+    job = SelectField('job', coerce=int, validators=[DataRequired()])

@@ -60,11 +60,7 @@ def allocate_stock(id):
     form.job.choices = jobs
     form.job.choices.insert(0,(0,'Unallocated'))
     if form.validate_on_submit():
-        if form.job.data == 0:
-            stockitem.quantity=form.quantity.data
-        else:
-            stockitem.quantity=form.quantity.data
-            stockitem.job_id=form.job.data
+        stockitem.job_id=form.job.data
         db.session.commit()
         flash('Stockitem allocated to job: %s' %
             (stockitem.job.name))

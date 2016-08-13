@@ -2,18 +2,9 @@
 
 {% block body %}
   <h1>Allocate stock to job</h1>
-  <h2>{{stockitem.name}}</h2>
+  <h2>{{ stockitem.quantity }} x {{stockitem.name}}</h2>
   <form action="" method="post" name="allocate_stock">
     {{ form.hidden_tag() }}
-    <p>
-      <label for="quantity">
-        Quantity
-          {{ form.quantity(type='number', step='0.01') }}
-          {% for error in form.quantity.errors %}
-            <span style="color: #f33;">[{{ error }}]</span>
-          {% endfor %}
-      </label>
-    </p>
     <p>
       <label for="job">
         Assign to job
