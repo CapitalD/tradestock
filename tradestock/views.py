@@ -62,38 +62,23 @@ def allocate_stock(id):
     # TODO: Find an alternative to updating the NumberRange validation via index.  It's yuck, but it works (at the moment).
     form.split_quantity.validators[0].max = stockitem.quantity
     if form.validate_on_submit():
-        if form.split.data == "2":
-            dupe_item = Stockitem(sku=stockitem.sku, name=stockitem.name, unitprice=stockitem.unitprice, quantity=stockitem.quantity)
-            stockitem.quantity = float(form.split_quantity.data)
-            stockitem.totalprice = (float(stockitem.unitprice) * float(stockitem.quantity))
+        if form.split.data == "1": #all
             stockitem.job_id=form.job.data
-            dupe_item.quantity = (float(dupe_item.quantity) - float(stockitem.quantity))
-            dupe_item.totalprice = (float(dupe_item.unitprice) * float(dupe_item.quantity))
-            db.session.add(dupe_item)
-            db.session.commit()
-            flash('%s %s allocated to %s' %
-                (stockitem.quantity, stockitem.name, stockitem.job.name))
-        elif form.split.data == "3":
-            # duplicate stockitem
-            # update quanity of one to form.split_percentage, and allocate to selected job
-            # update the quantity of the other to (stockitem.quantity - form.split_quantity)
-            # save both
-            dupe_item = Stockitem(sku=stockitem.sku, name=stockitem.name, unitprice=stockitem.unitprice, quantity=stockitem.quantity)
-            stockitem.quantity = float(dupe_item.quantity) * (float(form.split_percentage.data) / 100)
-            print "quantity: %s" % stockitem.quantity
-            stockitem.totalprice = (float(stockitem.unitprice) * float(stockitem.quantity))
-            stockitem.job_id=form.job.data
-            dupe_item.quantity = (float(dupe_item.quantity) - float(stockitem.quantity))
-            dupe_item.totalprice = (float(dupe_item.unitprice) * float(dupe_item.quantity))
-            db.session.add(dupe_item)
-            db.session.commit()
-            flash('%s %s allocated to %s' %
-                (stockitem.quantity, stockitem.name, stockitem.job.name))
         else:
-            print "split 1 (all)"
-        #db.session.commit()
-        #flash('Stockitem allocated to job: %s' %
-        #    (stockitem.job.name))
+            dupe_item = Stockitem(sku=stockitem.sku, name=stockitem.name, unitprice=stockitem.unitprice, quantity=stockitem.quantity)
+            if form.split.data == "2": #quantity
+                stockitem.quantity = float(form.split_quantity.data)
+            if form.split.data == "3": #percentage
+                stockitem.quantity = float(dupe_item.quantity) * (float(form.split_percentage.data) / 100)
+            stockitem.totalprice = (float(stockitem.unitprice) * float(stockitem.quantity))
+            stockitem.job_id=form.job.data
+            dupe_item.quantity = (float(dupe_item.quantity) - float(stockitem.quantity))
+            dupe_item.totalprice = (float(dupe_item.unitprice) * float(dupe_item.quantity))
+            if dupe_item.quantity > 0:
+                db.session.add(dupe_item)
+        db.session.commit()
+        flash('%s %s allocated to %s' %
+            (stockitem.quantity, stockitem.name, stockitem.job.name))
         return redirect(url_for('index'))
     return render_template('allocate_stock.html',
                             title='Allocate stock to job',
