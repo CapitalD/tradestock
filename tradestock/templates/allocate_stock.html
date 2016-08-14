@@ -15,6 +15,26 @@
       </label>
     </p>
     <p>
+      Allocate all or some?<br>
+      {% for subfield in form.split %}
+        {{ subfield }} {{ subfield.label }}<br>
+      {% endfor %}
+    </p>
+    <p>
+      <label for="split_quantity">Enter quantity to allocate
+      {{ form.split_quantity(type='number') }}</label>
+      {% for error in form.split_quantity.errors %}
+        <span style="color: #f33;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      <label for="split_percentage">Enter percentage to allocate
+      {{ form.split_percentage(type='number') }}</label>
+      {% for error in form.split_percentage.errors %}
+        <span style="color: #f33;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
       <a href="{{ url_for('index') }}">Cancel</a> |
       <input type="submit" name="submit" value="Save">
     </p>

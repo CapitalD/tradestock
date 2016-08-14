@@ -59,8 +59,26 @@ def allocate_stock(id):
     jobs = [(j.id, j.name) for j in Job.query.filter_by(active=True).all()]
     form.job.choices = jobs
     form.job.choices.insert(0,(0,'Unallocated'))
+    # TODO: Find an alternative to updating the NumberRange validation via index.  It's yuck, but it works (at the moment).
+    form.split_quantity.validators[0].max = stockitem.quantity
     if form.validate_on_submit():
-        stockitem.job_id=form.job.data
+        if form.split.data == "2":
+            dupe_item = Stockitem(sku=stockitem.sku, name=stockitem.name, unitprice=stockitem.unitprice, quantity=stockitem.quantity)
+            stockitem.quantity = float(form.split_quantity.data)
+            stockitem.totalprice = (float(stockitem.unitprice) * float(stockitem.quantity))
+            stockitem.job_id=form.job.data
+            dupe_item.quantity = (float(dupe_item.quantity) - float(form.split_quantity.data))
+            dupe_item.totalprice = (float(dupe_item.unitprice) * float(dupe_item.quantity))
+            db.session.add(dupe_item)
+            db.session.commit()
+        elif form.split.data == "3":
+            print "split 3 %"
+            # duplicate stockitem
+            # update quanity of one to form.split_percentage, and allocate to selected job
+            # update the quantity of the other to (stockitem.quantity - form.split_quantity)
+            # save both
+        else:
+            print "split 1 (all)"
         db.session.commit()
         flash('Stockitem allocated to job: %s' %
             (stockitem.job.name))

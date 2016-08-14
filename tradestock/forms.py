@@ -1,6 +1,6 @@
 from flask_wtf import Form
 from wtforms import StringField, RadioField, DecimalField, SelectField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, NumberRange
 
 class NewJobForm(Form):
     name = StringField('name', validators=[DataRequired()])
@@ -15,3 +15,7 @@ class NewStockForm(Form):
 
 class AllocateStockForm(Form):
     job = SelectField('job', coerce=int, validators=[DataRequired()])
+    quantity = DecimalField('quantity')
+    split = RadioField('split', choices=[('1', 'All'), ('2','Choose quantity'), ('3','Choose percentage')], default='1', validators=[DataRequired()])
+    split_quantity = DecimalField('split_quantity', validators=[NumberRange(min=0)])
+    split_percentage = DecimalField('split_percentage', default=100, validators=[NumberRange(min=0, max=100)])
