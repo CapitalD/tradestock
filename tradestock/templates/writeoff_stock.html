@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <h1>Write-off stock</h1>
+  <h2>Are you sure you want to write-off {{stockitem.name}}?</h2>
+  <form action="" method="post" name="writeoff_stock">
+    {{ form.hidden_tag() }}
+    <p>
+      <a href="{{ url_for('index') }}">Cancel</a> |
+      <input type="submit" name="submit" value="Yes, write-off">
+    </p>
+  </form>
+{% endblock %}

@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, RadioField, DecimalField, SelectField
+from wtforms import StringField, RadioField, DecimalField, SelectField, SubmitField
 from wtforms.validators import DataRequired, NumberRange, Optional
 
 class OptionalIfFieldEqualTo(Optional):
@@ -29,10 +29,12 @@ class NewStockForm(Form):
     quantity = DecimalField('quantity')
     job = SelectField('job', coerce=int)
 
-
 class AllocateStockForm(Form):
     job = SelectField('job', coerce=int, validators=[DataRequired()])
     quantity = DecimalField('quantity')
     split = RadioField('split', choices=[('1', 'All'), ('2','Choose quantity'), ('3','Choose percentage')], default='1', validators=[DataRequired()])
     split_quantity = DecimalField('split_quantity', validators=[NumberRange(min=0), OptionalIfFieldEqualTo('split', '1'), OptionalIfFieldEqualTo('split', '3')])
     split_percentage = DecimalField('split_percentage', validators=[NumberRange(min=0, max=100), OptionalIfFieldEqualTo('split', '1'), OptionalIfFieldEqualTo('split', '2')])
+
+class WriteoffStockForm(Form):
+    submit = SubmitField()

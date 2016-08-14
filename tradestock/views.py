@@ -1,8 +1,9 @@
 from flask import render_template, flash, redirect, url_for
 from sqlalchemy import func
+from datetime import datetime
 from . import app, db
 from models import Job, Stockitem
-from forms import NewJobForm, NewStockForm, AllocateStockForm
+from forms import NewJobForm, NewStockForm, AllocateStockForm, WriteoffStockForm
 
 @app.route('/')
 @app.route('/index')
@@ -10,7 +11,7 @@ def index():
 
     active_jobs = db.session.query(Job, func.sum(Stockitem.quantity).label('stockcount'), func.sum(Stockitem.totalprice).label('stocksum')).outerjoin(Job.stockitems).group_by(Job).filter(Job.active==True).all()
     #active_jobs = Job.query.filter_by(active=True).all()
-    unallocated_stock = Stockitem.query.filter(Stockitem.job==None).all()
+    unallocated_stock = Stockitem.query.filter(Stockitem.job==None, Stockitem.writeoff==None).all()
     return render_template('index.html',
                     title='Home',
                     jobs=active_jobs,
@@ -82,5 +83,19 @@ def allocate_stock(id):
         return redirect(url_for('index'))
     return render_template('allocate_stock.html',
                             title='Allocate stock to job',
+                            form=form,
+                            stockitem=stockitem)
+
+@app.route('/stockitem/<id>/writeoff', methods=['GET','POST'])
+def writeoff(id):
+    stockitem = Stockitem.query.get_or_404(id)
+    form = WriteoffStockForm(obj=stockitem)
+    if form.validate_on_submit():
+        stockitem.writeoff = datetime.utcnow()
+        db.session.commit()
+        flash('%s written off' % (stockitem.name))
+        return redirect(url_for('index'))
+    return render_template('writeoff_stock.html',
+                            title='Write-off stock',
                             form=form,
                             stockitem=stockitem)

@@ -17,6 +17,7 @@ class Stockitem(db.Model):
     quantity = db.Column(db.Float)
     totalprice = db.Column(db.Float)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id'))
+    writeoff = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<Stockitem %r>' % (self.name)
