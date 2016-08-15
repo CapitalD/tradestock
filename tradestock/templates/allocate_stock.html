@@ -10,6 +10,7 @@
       <div class="six columns">
         <label for="job">
           Select a job
+          {% if form.job.flags.required %}<span class="required-indicator">*</span>{% endif %}
           {% for error in form.job.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
@@ -22,6 +23,7 @@
       <div class="six columns">
         <label>
           Allocate all or some?
+          {% if form.split.flags.required %}<span class="required-indicator">*</span>{% endif %}
         </label>
         {% for subfield in form.split %}
           <label for="{{ subfield.label.field_id}}">
@@ -34,6 +36,7 @@
       <div id="split_quantity" class="six columns">
         <label for="split_quantity">
           Enter quantity to allocate
+          {% if form.split_quantity.flags.required %}<span class="required-indicator">*</span>{% endif %}
           {% for error in form.split_quantity.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
@@ -44,6 +47,7 @@
       <div id="split_percentage" class="six columns">
         <label for="split_percentage">
           Enter percentage to allocate
+          {% if form.split_percentage.flags.required %}<span class="required-indicator">*</span>{% endif %}
           {% for error in form.split_percentage.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}

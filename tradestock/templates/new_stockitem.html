@@ -8,6 +8,7 @@
       <div class="u-full-width">
         <label for="sku">
           SKU
+          {% if form.sku.flags.required %}<span class="required-indicator">*</span>{% endif %}
           {% for error in form.sku.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
@@ -16,6 +17,7 @@
 
         <label for="name">
           Name
+          {% if form.name.flags.required %}<span class="required-indicator">*</span>{% endif %}
           {% for error in form.name.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
@@ -29,6 +31,7 @@
       <div class="four columns">
         <label for="quantity">
           Quantity
+          {% if form.quantity.flags.required %}<span class="required-indicator">*</span>{% endif %}
           {% for error in form.quantity.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
@@ -39,6 +42,7 @@
       <div class="four columns">
         <label for="unitprice">
           Unit price
+          {% if form.unitprice.flags.required %}<span class="required-indicator">*</span>{% endif %}
           {% for error in form.unitprice.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
@@ -52,6 +56,7 @@
       <div class="six columns">
         <label for="job">
           Allocate to a job
+          {% if form.job.flags.required %}<span class="required-indicator">*</span>{% endif %}
           {% for error in form.job.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}

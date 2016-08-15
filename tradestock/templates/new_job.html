@@ -10,6 +10,7 @@
 
         <label for="name">
           Job name
+          {% if form.name.flags.required %}<span class="required-indicator">*</span>{% endif %}
         </label>
         {{ form.name(class='u-full-width', placeholder='Steve\'s big deck') }}
         {% for error in form.name.errors %}
