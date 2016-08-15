@@ -4,23 +4,30 @@
   <h1>Add job</h1>
   <form action="" method="post" name="new_job">
     {{ form.hidden_tag() }}
-    <p>
-      <label for="name">
-        Job name
-          {{ form.name(size=80) }}
-          {% for error in form.name.errors %}
-            <span style="color: #f33;">[{{ error }}]</span>
-          {% endfor %}
-      </label>
-    </p>
-    <p>
-      {% for subfield in form.active %}
-        {{ subfield }} {{ subfield.label }}<br>
+
+    <div class="row">
+      <div class="six columns">
+
+        <label for="name">
+          Job name
+        </label>
+        {{ form.name(class='u-full-width', placeholder='Steve\'s big deck') }}
+        {% for error in form.name.errors %}
+          <div class="u-full-width" style="color: #f33;">[{{ error }}]</div>
+        {% endfor %}
+
+        {% for subfield in form.active %}
+          <label for="{{ subfield.label.field_id}}">
+            {{ subfield }}
+            <span class="label-body">{{ subfield.label.text }}</span>
+          </label>
       {% endfor %}
     </p>
     <p>
-      <a href="{{ url_for('index') }}">Cancel</a> | 
-      <input type="submit" name="submit" value="Save">
+      <a class="button" href="{{ url_for('index') }}">Cancel</a>
+      <input class="button button-primary" type="submit" name="submit" value="Save">
     </p>
+      </div>
+    </div>
   </form>
 {% endblock %}

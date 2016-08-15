@@ -25,8 +25,8 @@ class NewJobForm(Form):
 class NewStockForm(Form):
     sku = StringField('sku')
     name = StringField('name', validators=[DataRequired()])
-    unitprice = DecimalField('unitprice', places=2)
-    quantity = DecimalField('quantity')
+    unitprice = DecimalField('unitprice', places=2, validators=[DataRequired()])
+    quantity = DecimalField('quantity', validators=[DataRequired()])
     job = SelectField('job', coerce=int)
 
 class AllocateStockForm(Form):

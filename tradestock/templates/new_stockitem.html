@@ -1,57 +1,70 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h1>Add Stockitem</h1>
+  <h1>Add a stock item</h1>
   <form action="" method="post" name="new_stockitem">
     {{ form.hidden_tag() }}
-    <p>
-      <label for="sku">
-        SKU
-          {{ form.sku(size=80) }}
+    <div class="row">
+      <div class="u-full-width">
+        <label for="sku">
+          SKU
           {% for error in form.sku.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
-      </label>
-    </p>
-    <p>
-      <label for="name">
-        Name
-          {{ form.name(size=80) }}
+        </label>
+        {{ form.sku(class='u-full-width', placeholder='00533166') }}
+
+        <label for="name">
+          Name
           {% for error in form.name.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
-      </label>
-    </p>
-    <p>
-      <label for="unitprice">
-        Unit price
-          {{ form.unitprice(type='number', step='0.01') }}
-          {% for error in form.unitprice.errors %}
-            <span style="color: #f33;">[{{ error }}]</span>
-          {% endfor %}
-      </label>
-    </p>
-    <p>
-      <label for="quantity">
-        Quantity
-          {{ form.quantity(type='number', step='0.01') }}
+        </label>
+        {{ form.name(class='u-full-width', placeholder='88x32mm Radiata Premium H3.2 Decking Griptread Timber') }}
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="four columns">
+        <label for="quantity">
+          Quantity
           {% for error in form.quantity.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
-      </label>
-    </p>
-    <p>
-      <label for="job">
-        Assign to job
+        </label>
+        {{ form.quantity(type='number', step='0.01', placeholder='10') }}
+
+      </div>
+      <div class="four columns">
+        <label for="unitprice">
+          Unit price
+          {% for error in form.unitprice.errors %}
+            <span style="color: #f33;">[{{ error }}]</span>
+          {% endfor %}
+        </label>
+        {{ form.unitprice(type='number', step='0.01', placeholder='4.12') }}
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="six columns">
+        <label for="job">
+          Allocate to a job
+          {% for error in form.job.errors %}
+            <span style="color: #f33;">[{{ error }}]</span>
+          {% endfor %}
+        </label>
         {{ form.job }}
-        {% for error in form.job.errors %}
-          <span style="color: #f33;">[{{ error }}]</span>
-        {% endfor %}
-      </label>
-    </p>
-    <p>
-      <a href="{{ url_for('index') }}">Cancel</a> |
-      <input type="submit" name="submit" value="Save">
-    </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="six columns">
+        <a class="button" href="{{ url_for('index') }}">Cancel</a>
+        <input class="button button-primary" type="submit" name="submit" value="Save">
+      </div>
+    </div>
   </form>
 {% endblock %}

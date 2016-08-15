@@ -1,42 +1,62 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h1>Allocate stock to job</h1>
-  <h2>{{ stockitem.quantity }} x {{stockitem.name}}</h2>
+  <h1>Allocate <em>{{stockitem.name}}</em> to a job</h1>
+  <h3>Current stock: {{ stockitem.quantity }}</h3>
   <form action="" method="post" name="allocate_stock">
     {{ form.hidden_tag() }}
-    <p>
-      <label for="job">
-        Assign to job
+
+    <div class="row">
+      <div class="six columns">
+        <label for="job">
+          Select a job
+          {% for error in form.job.errors %}
+            <span style="color: #f33;">[{{ error }}]</span>
+          {% endfor %}
+        </label>
         {{ form.job }}
-        {% for error in form.job.errors %}
-          <span style="color: #f33;">[{{ error }}]</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="six columns">
+        <label>
+          Allocate all or some?
+        </label>
+        {% for subfield in form.split %}
+          <label for="{{ subfield.label.field_id}}">
+            {{ subfield }}
+            <span class="label-body">{{ subfield.label.text }}</span>
+          </label>
         {% endfor %}
-      </label>
-    </p>
-    <p>
-      Allocate all or some?<br>
-      {% for subfield in form.split %}
-        {{ subfield }} {{ subfield.label }}<br>
-      {% endfor %}
-    </p>
-    <p>
-      <label for="split_quantity">Enter quantity to allocate
-      {{ form.split_quantity(type='number') }}</label>
-      {% for error in form.split_quantity.errors %}
-        <span style="color: #f33;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      <label for="split_percentage">Enter percentage to allocate
-      {{ form.split_percentage(type='number') }}</label>
-      {% for error in form.split_percentage.errors %}
-        <span style="color: #f33;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      <a href="{{ url_for('index') }}">Cancel</a> |
-      <input type="submit" name="submit" value="Save">
-    </p>
+      </div>
+
+      <div id="split_quantity" class="six columns">
+        <label for="split_quantity">
+          Enter quantity to allocate
+          {% for error in form.split_quantity.errors %}
+            <span style="color: #f33;">[{{ error }}]</span>
+          {% endfor %}
+        </label>
+        {{ form.split_quantity(type='number') }}
+      </div>
+
+      <div id="split_percentage" class="six columns">
+        <label for="split_percentage">
+          Enter percentage to allocate
+          {% for error in form.split_percentage.errors %}
+            <span style="color: #f33;">[{{ error }}]</span>
+          {% endfor %}
+        </label>
+        {{ form.split_percentage(type='number') }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="six columns">
+        <a class="button" href="{{ url_for('index') }}">Cancel</a>
+        <input class="button button-primary" type="submit" name="submit" value="Save">
+      </div>
+    </div>
   </form>
 {% endblock %}

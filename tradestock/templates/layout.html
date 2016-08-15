@@ -1,15 +1,36 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
   <head>
+    <meta charset="utf-8">
     {% if title %}
     <title>{{title}} | Tradestock</title>
     {% else %}
     <title>Tradestock</title>
     {% endif %}
+    <meta name="description" content="Stock management for tradies">
+    <meta name="author" content="Duncan Thurston">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="/static/css/lib/normalize.css">
+    <link rel="stylesheet" href="/static/css/lib/skeleton.css">
+
+    <link rel="stylesheet" href="/static/css/tradestock.css">
+
     <script type="text/javascript" src="/static/js/lib/numeral.min.js"></script>
     {% block head %}{% endblock %}
   </head>
   <body>
-    <div>Header</div>
+
+    <div class="container">
+      <div class="row">
+        <div id="header" class="u.full-width">
+            <h4>Tradestock</h4>
+        </div>
+      </div>
     {% with messages = get_flashed_messages() %}
        {% if messages %}
         <ul>
