@@ -8,7 +8,6 @@ from forms import NewJobForm, NewStockForm, AllocateStockForm, WriteoffStockForm
 @app.route('/')
 @app.route('/index')
 def index():
-
     active_jobs = db.session.query(Job, func.sum(Stockitem.quantity).label('stockcount'), func.sum(Stockitem.totalprice).label('stocksum')).outerjoin(Job.stockitems).group_by(Job).filter(Job.active==True).all()
     #active_jobs = Job.query.filter_by(active=True).all()
     unallocated_stock = Stockitem.query.filter(Stockitem.job==None, Stockitem.writeoff==None).all()
@@ -16,6 +15,13 @@ def index():
                     title='Home',
                     jobs=active_jobs,
                     unallocated_stock=unallocated_stock)
+
+@app.route('/job/<id>', methods=['GET'])
+def view_job(id):
+    job = Job.query.get_or_404(id)
+    return render_template('view_job.html',
+                            title=job.name,
+                            job=job)
 
 @app.route('/job/new', methods=['GET','POST'])
 def new_job():

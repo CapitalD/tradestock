@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>{{job.name}}</h1>
+  <p>
+    Status:
+    {% if job.active %}
+      Active
+    {% else %}
+      Inactive
+    {% endif %}
+  </p>
+
+  <div id="stock">
+    <h2>Stock</h2>
+    {% if job.stockitems.count() > 0 %}
+      <table>
+        <tr>
+          <th>
+            Sku
+          </th>
+          <th>
+            Name
+          </th>
+          <th>
+            Unit price
+          </th>
+          <th>
+            Quantity
+          </th>
+          <th>
+            Total price
+          </th>
+        </tr>
+        {% for stockitem in job.stockitems %}
+          <tr>
+            <td>
+              {{stockitem.sku}}
+            </td>
+            <td>
+              {{stockitem.name}}
+            </td>
+            <td>
+              {{numeraljs(stockitem.unitprice).currency()}}
+            </td>
+            <td>
+              {{numeraljs(stockitem.quantity).decimal_if_required()}}
+            </td>
+            <td>
+              {{numeraljs(stockitem.totalprice).currency()}}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+    <p>
+      No stock allocated
+    </p>
+    {% endif %}
+    </div>
+
+{% endblock %}

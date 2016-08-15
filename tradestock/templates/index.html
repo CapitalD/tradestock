@@ -19,7 +19,7 @@
       {% for job in jobs %}
         <tr>
           <td>
-            {{job.Job.name}}
+            <a href="{{url_for('view_job', id=job.Job.id)}}">{{job.Job.name}}</a>
           </td>
           <td>
             {% if not job.stockcount %}
