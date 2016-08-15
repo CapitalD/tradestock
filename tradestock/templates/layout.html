@@ -20,6 +20,7 @@
 
     <link rel="stylesheet" href="/static/css/tradestock.css">
 
+    <script type="text/javascript" src="/static/js/lib/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="/static/js/lib/numeral.min.js"></script>
     {% block head %}{% endblock %}
   </head>
@@ -41,5 +42,11 @@
       {% endif %}
     {% endwith %}
     {% block body %}{% endblock %}
+    <script type="text/javascript">
+      $(function() {
+        {% block domready %}{% endblock %}
+      });
+      {% block script %}{% endblock %}
+    </script>
   </body>
 </html>

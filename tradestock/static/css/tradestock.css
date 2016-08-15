@@ -10,3 +10,7 @@
 label .required-indicator {
   color: #f33;
 }
+
+.hide {
+  display: none;
+}

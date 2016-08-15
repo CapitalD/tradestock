@@ -33,10 +33,10 @@
         {% endfor %}
       </div>
 
-      <div id="split_quantity" class="six columns">
+      <div id="split_quantity" class="six columns hide">
         <label for="split_quantity">
           Enter quantity to allocate
-          {% if form.split_quantity.flags.required %}<span class="required-indicator">*</span>{% endif %}
+          <span class="required-indicator">*</span>
           {% for error in form.split_quantity.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
@@ -44,10 +44,10 @@
         {{ form.split_quantity(type='number') }}
       </div>
 
-      <div id="split_percentage" class="six columns">
+      <div id="split_percentage" class="six columns hide">
         <label for="split_percentage">
           Enter percentage to allocate
-          {% if form.split_percentage.flags.required %}<span class="required-indicator">*</span>{% endif %}
+          <span class="required-indicator">*</span>
           {% for error in form.split_percentage.errors %}
             <span style="color: #f33;">[{{ error }}]</span>
           {% endfor %}
@@ -63,4 +63,27 @@
       </div>
     </div>
   </form>
+{% endblock %}
+{% block domready %}
+  show_split_field($('input[name=split]:checked').val());
+
+  $('input[name=split]:radio').change(function() {
+    show_split_field(this.value);
+  });
+
+{% endblock %}
+{% block script %}
+
+function show_split_field(value) {
+  $("#split_quantity").hide();
+  $("#split_percentage").hide();
+  switch (value) {
+    case "2":
+      $("#split_quantity").show();
+      break;
+    case "3":
+      $("#split_percentage").show();
+      break;
+  }
+}
 {% endblock %}
