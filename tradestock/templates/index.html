@@ -29,7 +29,7 @@
               {% if not job.stockcount %}
                 0
               {% else %}
-                {{job.stockcount}}
+                {{numeraljs(job.stockcount).decimal_if_required()}}
               {% endif %}
             </td>
             <td>
