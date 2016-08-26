@@ -2,17 +2,17 @@
 {% block body %}
 
 <div class="row">
-  <div class="six columns" id="active_jobs">
+  <div class="four columns" id="active_jobs">
     <h2>Active jobs</h2>
     <a class="button" href="{{url_for('new_job')}}">Add job</a>
-    <table class="u-full-width">
+    <table id="active_jobs_table" class="u-full-width">
       <thead>
         <tr>
           <th>
-            Name
+            Job
           </th>
           <th>
-            Stock items
+            Stock
           </th>
           <th>
             Value
@@ -45,21 +45,63 @@
     </table>
   </div>
 
-  <div class="six columns" id="unallocated_stock">
+  <div class="eight columns" id="unallocated_stock">
     <h2>Unallocated stock</h2>
-    <a class="button" href="{{url_for('new_stockitem')}}">Add stockitem</a>
+    <a class="button" href="{{url_for('new_stockitem')}}">Add new stock</a>
+
     {% if not unallocated_stock %}
       <p>
         No unallocated stock
       </p>
     {% endif %}
-    <ul>
+    <table id="unallocated_stock_table" class="u-full-width">
+      <thead>
+        <tr>
+          <th>
+            Name
+          </th>
+          <th>
+            Qty
+          </th>
+          <th>
+            Each
+          </th>
+          <th>
+            Allocate...
+          </th>
+        </tr>
+      </thead>
+      <tbody>
       {% for stock in unallocated_stock %}
-        <li>{{stock.name}} ({{numeraljs(stock.quantity).decimal_if_required()}} @ {{numeraljs(stock.unitprice).currency()}}) <a href="{{url_for('allocate_stock', id=stock.id)}}">[allocate]</a> | <a href="{{url_for('writeoff', id=stock.id)}}">[writeoff]</a></li>
+        <tr>
+          <td>
+            {{stock.name}}
+          </td>
+          <td>
+            {{numeraljs(stock.quantity).decimal_if_required()}}
+          </td>
+          <td>
+            {{numeraljs(stock.unitprice).currency()}}
+          </td>
+          <td>
+            <select name="">
+              <option>Unallocated</option>
+              <optgroup label="Active jobs">
+                {% for job in jobs %}
+                  <option value="{{ job.Job.id }}">{{job.Job.name}}</option>
+                {% endfor %}
+              </optgroup>
+              <option disabled>──</option>
+              <option>Write-off</option>
+            </select>
+            <a class="button" href="{{url_for('allocate_stock', id=stock.id)}}">Split</a>
+          </td>
+           <!--( @ ) <a href="{{url_for('allocate_stock', id=stock.id)}}">[allocate]</a> | <a href="{{url_for('writeoff', id=stock.id)}}">[writeoff]</a></li>-->
+        </tr>
+
       {% endfor %}
-    </ul>
+      </tbody>
+    </table>
   </div>
 </div>
-
-
 {% endblock %}

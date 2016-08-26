@@ -14,3 +14,7 @@ label .required-indicator {
 .hide {
   display: none;
 }
+
+table input, table select, table .button {
+  margin: inherit;
+}
